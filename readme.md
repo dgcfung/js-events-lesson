@@ -187,7 +187,7 @@ Note that we're passing a *reference* to `getPaid` in to `doWork`.
 Comment out the code you just did in the Color Scheme Switcher exercise and put the following...
 
 ```js
-var buttons = document.querySelector('li a');
+let buttons = document.querySelector('li a');
 
 buttons.addEventListener('click', handleClickEvent);
 
