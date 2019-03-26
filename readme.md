@@ -139,7 +139,7 @@ button.addEventListener('click', function() {
 
 It's time to get some practice in creating event handlers.
 
-1. Open the [starter_code > color_scheme_switcher](https://git.generalassemb.ly/sei-nyc-jeopardy/js-events-lesson/tree/master/starter_code/color_scheme_switcher) folder in your text editor.
+1. Open the [starter_code > color_scheme_switcher](starter_code/color_scheme_switcher) folder in your text editor.
 
 2. Turn and Talk: Take a look at the code that has been provided to you in your `main.js` and `style.css`. What do you think will happen when the functions turnRed, turnWhite, turnBlue, and turnYellow run?
 
@@ -147,7 +147,7 @@ It's time to get some practice in creating event handlers.
 
 ### Code Along Exercise -- Simple Form
 
-Say we've created a [simple form](https://git.generalassemb.ly/sei-nyc-jeopardy/js-events-lesson/tree/master/examples/email_form) that allows users to subscribe to our email newsletter.
+Say we've created a [simple form](examples/email_form) that allows users to subscribe to our email newsletter.
 
 When the user tabs or clicks away from the email input field, we want to make sure the user has entered a value in the field.
 
