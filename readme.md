@@ -26,52 +26,55 @@ We can **listen** for certain kinds of user-driven events, such as clicking a bu
 
 ## Events
 
-- In plain English, what is an event?
-- What might an event in the context of a web page be?
-- What are some specific examples of common DOM events?
+JavaScript typically will run top-to-bottom. As developers, however, we have no idea when the code related to the button-click will actually be executed. It's totally dependent on the user.
 
-> You can find information on events and examples at [W3Schools Events](https://www.w3schools.com/js/js_events.asp), [W3Schools DOM Events](https://www.w3schools.com/js/js_htmldom_events.asp), and [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/Events).
+Therefore, we need to write code that will execute asynchronously — in other words, outside of the typical top-to-bottom document flow — and not hold up the rest of our application.
 
-> Note: W3 schools introduces events with JavaScript written into attributes.
-We instead will prefer to keep JavaScript out of HTML files and use JS to target elements from the DOM and attach [event listeners](https://www.w3schools.com/js/js_htmldom_eventlistener.asp).
+Once your JS has fully loaded, it lives in the background of your browser window, waiting and listening for any event triggers you've programmed.
 
-"DOM Events are sent to notify code of interesting things that have taken place." _- MDN_
+As its name implies, in *event-driven programming*, the flow of a program is driven by events.
 
-For the time being, when we talk about "interesting things that have taken place" we are talking about user interactions with the page.
+This means:
+
+- The program continually "waits" or listens for events to occur.
+- There are many kinds of events, such as mouse events, form events, key events, and document or window events.
+- The event acts as a "trigger," which calls, or runs, a function.
+
+### Turn & Talk: What is an Event?
+
+But first, a question for you: What is an event (on a webpage)? Spend two minutes doing the following tasks. You are encouraged to discuss your findings with a partner during the exercise.
+
+1. Come up with your own definition without looking at any other sources. Don't worry about getting it right — what do you think an event is?
+2. Now, find (i.e., Google) some documentation on JavaScript events. Does that information match your definition? How would you change it?
+3. Write down three examples of an event.
+
+> You can find information on events and examples at [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/Events).
 
 ### Types of Events
 
-There are many events that we can listen for and respond to in JavaScript. Broadly speaking, we can divide these events in to four categories:
+There are many events that can trigger a function. Here are a few:
 
-**Document / Window Events**
+|  Event | Description  |
+|---|---|
+|  `'load'` | When the page has finished loading.  |
+|  `'resize'` |  When the browser window has been resized. |
+|  `'scroll'` |  When the user scrolls up or down on a page. |
+| `'click'`  | When the button (usually a mouse button) is pressed and released on a single element.  |
+| `'mouseenter`' | When the user's mouse enters an element. |
+| `'mouseleave'` | When the user's mouse leaves an element. |
+| `'keydown'`  | When the user first presses a key on the keyboard.  |
+|  `'keyup'` | When the user releases a key on the keyboard.  |
+| `'focus'`  | When an element receives focus.  |
+| `'blur'`  |  When an element loses focus. |
+|  `'submit'` | When the user submits a form.  |
 
-- load
-- resize
-- scroll
-- unload
+---
+Now that we have an idea of what DOM events are in theory, let's wire up our code and begin interacting with them. There are two steps to working with events:
+ 
+1. We set up an event listener with `.addEventListener`
+2. We define an event handler, a callback function that get's passed to `.addEventListener`
 
-**Mouse Events**
-
-- click
-- dblclick
-- mouseenter
-- mouseleave
-
-**Key Events**
-
-- keypress
-- keydown
-- keyup
-
-**Form Events**
-
-- submit
-- change
-- focus
-
-### Setting Up An Event Listener
-
-Now that we have an idea of what DOM events are in theory, let's wire up our code and begin interacting with them. There are two steps to working with events: (1) Listening for an event and (2) Responding to an event.
+### Step 1: Setting Up An Event Listener
 
 In order to listen for an event, we need to define an **event listener**. Below you'll find a simple event listener associated with a `'click'` event on a `button` element.
 
@@ -97,9 +100,9 @@ button.addEventListener('click', handleClickEvent);
 // second argument: callback function
 ```
 
-That completes step 1 of working with events - we're now listening for a click event on our button!
+### Step 2: Setting Up An Event Handler
 
-For step two, we need to define the function that will be called whenever this event is emitted. This is just a function, but it has a special name due to how it's being used: a **callback** function:
+For step two, we need to define the function that will be called whenever this event is emitted. This is just a function, but it has a special name due to how it's being used -- a **callback** function:
 
 ```js
 function handleClickEvent() {
@@ -107,7 +110,7 @@ function handleClickEvent() {
 }
 ```
 
-All together, our code looks like this:
+Altogether, our code looks like this:
 
 ```js
 const button = document.querySelector('.js-button');
@@ -128,88 +131,217 @@ button.addEventListener('click', function() {
 });
 ```
 
-The code above first gets an element from the DOM. It then attaches an event listener to that `button` element with the `addEventListener()` method. The `addEventListener()` method takes two arguments: (1) the event we want to listen for and (2) the function that should be called whenever that event is invoked. In the case of the code above, we're saying we want to listen for `click` events on our `button`, and whenever someone does click on our button, call the `handleClickEvent()` function.
+<details>
+	<summary>What is the code doing?</summary>
+	
+- The `button` refers to the DOM node to which we want to tie the event
+- Then, it attaches an event listener to the `button` element with the `addEventListener()` method
+- The `addEventListener()` method takes two arguments: 
+ 1. The event we want to listen for and 
+ 2. The function that should be called whenever that event is invoked. 
+- In the case of the code above, we're saying we want to listen for `click` events on our `button`, and whenever someone does click on our button, call the `handleClickEvent()` function.
+</details>
 
-## Aside: Callbacks -  Calling vs. Referencing
+### Independent Practice - Color Scheme Switcher
 
-As a quick aside, let's answer the question, "What is a callback function?"
+It's time to get some practice in creating event handlers.
 
-A callback function is a function that is passed in to another function as an argument, so that it can be called (invoked) at a later point. This is one of the many ways that JavaScript handles **asynchronous** code.
+1. Open the [starter_code > color_scheme_switcher]() folder in your text editor.
 
-Let's see an example.
+2. Turn and Talk: Take a look at the code that has been provided to you in your main.js and style.css. What do you think will happen when the functions turnRed, turnWhite, turnBlue, and turnYellow run?
 
-_Scenario_: Let's say we have a function called `doWork()` that takes a long time to execute (maybe it has to communicate with some external service). We want to perform some task when it is finished, which we wrap into a function called `getPaid()`. How can we ensure that `getPaid()` will only be called after `doWork()` is finished?
+3. Add event handlers to the main.js file so that when a user clicks on one of the colored dots, the background color of the entire page changes to match that dot. You should not need to change any HTML or CSS.
 
-You might think that it is as simple as putting the two functions after each other:
+### Code Along Exercise -- Simple Form
 
-```js  
-doWork();
-getPaid();
+Say we've created a simple form that allows users to subscribe to our email newsletter.
+
+When the user tabs or clicks away from the email input field, we want to make sure the user has entered a value in the field.
+
+Here we have a simple HTML snippet of an email form:
+
+```html
+<form>
+	<h1>Email Form</h1>
+	<input id="email" type="email" placeholder="Email Address">
+	<button type="submit">Subscribe</button>
+	<p id="message"></p>
+</form>
 ```
+The form contains an input field where the user can enter an email address, a button for submitting the form, and a paragraph with the id message that currently does not have any text inside of it.
 
-In some languages this will work, and the process will hang until `doWork` finishes - but not in JavaScript. JavaScript is an asynchronous programming language, which simply means things won't necessarily happen one after the other. Instead, what would likely happen is `doWork` would get called and start it's process, then `getPaid` would get called and then sometime later, `doWork` would finish running.
+Our stylesheet is also very basic.
 
-This is where callbacks come in!
+Take a look at the class error, which will give a solid red border to any elements that have the error class.
 
-We can imagine the implementation of `doWork` as looking something like this:
+```
+.error {
+    border: 2px solid #fa4542;
+}
+```
+Now let's take a look at the event handler in our JS:
 
 ```js
-function doWork(callback) {
+// First in our JS, let's find the email input field.
+var emailInputField = document.getElementById('email');
 
-	// code for whatever it is that takes so long ...
+// Next up in our JS, let's add our event handler that will trigger the function when the user
+// hits tab or clicks out of the email field (the 'blur' event).
+emailInputField.addEventListener('blur', checkEmailInput);
 
-	callback();
+// And finally in our JS, let's go ahead and set up that function we want to run when the blur event occurs, checkEmailInput:
+function checkEmailInput () {
+
+    // Check to see whether the user has entered a value to the email field.
+    if (emailInputField.value.length === 0) {
+        // If the email field is blank, display a message to the user.
+        document.getElementById('message').innerText = 'Please enter an email address.'
+
+        // Add an error class to the input field that will give it a red border.
+        emailInputField.className = 'error';
+    } else {
+        //Otherwise, clear out the error message.
+        document.getElementById('message').innerText = '';
+
+        // Remove the error class from the input field
+        emailInputField.className = '';
+    }
+
+}
+```
+
+Let's examine what the page looks like when the user hits the tab key or clicks away from the email field without entering any information.
+
+![Error](assets/email_form.png)
+
+The email input now has the `error` class, giving the input field a red border.
+
+We've also added a message in the paragraph with the id `message`, alerting the user that they need to enter an email address.
+
+### Independent Practice - Adding Event Handlers
+
+It's time to get some practice in creating event listeners.
+
+1. Open the [starter_code/event_listener_practice]() folder in your text editor. We've provided you with three files: index.html, style.css, and main.js.
+
+2. Your job is to add event handlers to create the following functionality:
+
+ - When the user hovers a mouse cursor over the `<div>`, the background of the page should turn blue.
+ - When user's mouse cursor is no longer hovering over the `<div>`, the background of the page should turn white.
+3. You have been provided with two functions — `changeBackgroundColorToBlue` and `changeBackgroundColorToWhite` — that can be used as callbacks. You do not need to change the content of these functions.
+
+
+## This
+
+As we saw earlier in this unit, the keyword `this` refers to the object that "owns" the function that the executed code runs within. It's important to remember that, when we have a method that is inside an object, this refers to the object that contains that method.
+
+However, when a callback function is executed within the context of an event handler, it is the element (the DOM node) that owns the context.
+
+So in this case, this will refer to the element that we selected when we set up our event handler.
+
+Let's look at an example where we'll change the background color of a circle from blue to red, just by clicking on it:
+
+##### HTML
+```html
+<div class="circle"></div>
+```
+##### JAVASCRIPT
+```JS
+document.querySelector('.circle').addEventListener('click', turnRed)
+
+function turnRed () {
+	this.style.backgroundColor = "red";
+}
+```
+When we click on the circle and trigger the turnRed function, this will refer to the element with the class circle within the turnRed function.
+
+Here's what that looks like in action:
+
+![](http://circuits-assets.generalassemb.ly/prod/asset/4629/Slide-8.gif)
+
+Okay, but why use the keyword `this`:
+
+`this.style.backgroundColor = "red";`
+
+Instead of just writing:
+
+`document.querySelector('.circle').style.backgroundColor = "red";`
+
+Well, let's imagine that there are several circles on our page, and we only want the `.circle` that we just clicked to have the updated red background color. That is where the `this` keyword really becomes useful.
+
+Let's take a look:
+
+```js
+//Select all elements with the class .circle on the page
+var circles = document.querySelectorAll('.circle');
+
+//loop through each .circle element and add an event handler.
+for (var i = 0; i < circles.length; i++) {
+	circles[i].addEventListener('click', turnRed);
 }
 
+function turnRed () {
+	this.style.backgroundColor = "red";
+}
 ```
 
-Making sure `getPaid` is called after `doWork` is finished is now as simple as passing it in to `doWork` as an argument:
+Here we are adding an event handler to each element with the class `.circle`.
 
-```js
-doWork(getPaid);
-```
+When an element with the `.circle` class is clicked, the `turnRed` function will be called; within that `turnRed` function, `this` will only refer to the `.circle` that triggered the `turnRed` function, and not to any of the other circles.
 
-Note that we're passing a *reference* to `getPaid` in to `doWork`.
+Let's see this in action:
 
-<details>
-	<summary>What is the difference between referencing and invoking a function?</summary>
-	Invoking will actually run the function; referencing is just passing it around inside our program.
-</details>
+![](http://circuits-assets.generalassemb.ly/prod/asset/4630/Slide-11.gif)
 
-<details>
-	<summary>Where does `getPaid` actually get invoked?</summary>
-	It will be invoked inside of `doWork`, at the very end of that functions' process or work.
-</details>
+See how we are only adding the style attribute to the circle we are currently clicking on (i.e., the one that triggered the callback function)? Pretty cool, huh?
 
+## Independent Practice: This  
+It's time to get some practice in creating using the `this` keyword.
+
+Work through this exercise with a partner.
+
+- Open the [starter_code/color\_scheme\_switcher\_part\_2](starter_code/color_scheme_switcher_part_2) folder in your text editor. We've provided you with three files: `index.html`, `style.css`, and `main.js`.
+- Follow the instructions in the `main.js` file.
+- You should only need to write code within the `switchTheme` function.
+
+**Challenge Instructions (for advanced students)**
+
+Want to try your hand at this exercise with a little less guidance?
+
+- Open the [starter\_code > color\_scheme\_switcher](starter_code/color_scheme_switcher) folder in your text editor that you were working from earlier.
+- Refactor the code using the following guidlines:
+	- Use `querySelectorAll` to select all `li`s on the page.
+	- Loop through all list items and add an event listener to each. When a `li` is clicked, call the `switchTheme` function.
+	- Create the `switchTheme` function. When the function runs, use the `this` keyword to get the className on the button that was just clicked and update the className on the body to that class.
+
+---
 
 ## The Event Object
 
-Comment out the code you just did in the Color Scheme Switcher exercise and put the following...
+Now that we've gotten the hang of writing event handlers, let's talk a bit about the event object.
 
-```js
-let buttons = document.querySelector('li a');
+When an event occurs, we might want to find out some information about it. For example, which element did the user interact with to cause the event? What type of event was it? A click event? A mouseover?
 
-buttons.addEventListener('click', handleClickEvent);
-
-function handleClickEvent (e) {
-  console.log('I was clicked!');
-  console.log(e);
-}
-```
-
-The `e` stands for `event`.
-
-> The reason we're not actually using `event` is that it's a "reserved word" in Javascript, like "if" and "return".
+To obtain this information, we use the **event object**.
 
 ### Explore The Event Object
 
-Open up your event listener practice exercise and modify your event handler to accept the event object as a parameter. Then print it to the console.
+Open up your event listener practice exercise and modify your event handler to accept the event object as a parameter. Then log it to the console.
 
-With your partner, spend three minutes clicking the button and exploring what properties the event (or `e`) object contains. Look for...
+With your partner, spend three minutes clicking the button and exploring what properties the event (or `e`) object contains. Look for:
 
 * A way to figure out what element was clicked on.
 * A way to tell the position of the mouse when it was clicked.
 * One other piece of useful or interesting information.
+
+> The reason we're not actually using `event` is that it's a "reserved word" in Javascript, like "if" and "return".
+
+Examine what the event object looks like when you log it to the console, and notice all of the properties we have available to us as part of the event object:
+
+<img src="assets/Slide-27-Codeblock.svg" width="500px">
+
+
+We'll take a look at a few of these properties, but for now, just note how much information about the event the event object holds.
 
 ### Preventing Default Behavior
 
@@ -261,6 +393,44 @@ Going back to our example with the `<nav>` element containing links: Given event
 
 To trigger specific outcomes for each event target child element, you can use a conditional (if/else) or switch statement to invoke the intended function for each the event target.
 
+### target
+
+We can use dot notation to access those properties, as we did when working with objects.
+
+```js
+document.querySelector('a').addEventListener('click', viewComments);
+
+function viewComments (e) {
+	// To access a property of the event object, we can use dot notation:
+	var eventTarget = e.target;
+	// Log the target to the console
+	console.log(eventTarget);
+
+}
+```
+
+Here we access the target of the event by using dot notation e.target. Then we log the target to the console.
+
+Let's take a look at what we see in the console:
+
+```html
+<a href="#">View Comments</a>
+```
+
+Aha! That's the target of the event, or the element we clicked on that caused the event to fire.
+
+## Additional Topics
+
+### Event Flow (If time permits)
+
+### Event Bubbling
+
+### Key Events (If time permits)
+
+### Multiple Events (If time permits)
+
+---
+
 ### We do: Color Switcher
 
 Let's write use javascript event listeners to finish the color switcher code and get the buttons working.
@@ -277,3 +447,5 @@ Let's write use javascript event listeners to finish the color switcher code and
 - [Introduction to events](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)
 - [Eloquent JavaScript: Handling Events](http://eloquentjavascript.net/14_event.html)
 - [Philip Roberts: What the heck is the event loop anyway?](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+- Readings
+ - Eloquent JavaScript [Events](http://eloquentjavascript.net/15_event.html)
