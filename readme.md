@@ -664,7 +664,7 @@ Lets recap the steps before we move on:
 
 1. In the traffic light directory, implement the JavaScript required to get the traffic light to illuminate the correct light when the corresponding button is pressed. **Note**: Only one light should be on at a time!
 
-2. Visit this [repository](https://git.generalassemb.ly/WDI-Epiphany/event-listener-demo) and follow the instructions.
+2. Visit this [repository](https://git.generalassemb.ly/sei-nyc-jeopardy/event-listener-demo) and follow the instructions.
 
 ## Additional Reading
 - Videos
