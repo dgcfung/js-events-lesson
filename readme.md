@@ -250,7 +250,7 @@ When we click on the circle and trigger the turnRed function, this will refer to
 
 Here's what that looks like in action:
 
-![One Circle](http://circuits-assets.generalassemb.ly/prod/asset/4629/Slide-8.gif)
+![One Circle](assets/Slide-8.gif)
 
 Okay, but why use the keyword `this`:
 
@@ -284,7 +284,7 @@ When an element with the `.circle` class is clicked, the `turnRed` function will
 
 Let's see this in action:
 
-![Three Circles](http://circuits-assets.generalassemb.ly/prod/asset/4630/Slide-11.gif)
+![Three Circles](assets/Slide-11.gif)
 
 See how we are only adding the style attribute to the circle we are currently clicking on (i.e., the one that triggered the callback function)? Pretty cool, huh?
 
@@ -452,7 +452,7 @@ We then access the `stopPropagation()` method using dot notation. This prevents 
 
 When we click on an anchor, we don't see messages appended for each ancestor element, since those events are no longer being triggered:
 
-![Popular Memes](http://circuits-assets.generalassemb.ly/prod/asset/4639/Slide-50.gif)
+![Popular Memes](assets/Slide-50.gif)
 
 When an event (e.g. click) occurs, all nodes up the DOM tree are notified, beginning at the window level and working its way down the DOM branch to the event target. This is the capture phase. Once the propagation reaches the event target, all event listeners on the target will be triggered. Then, event propagation continues back up the DOM tree in the event bubbling phase. All three of these phases are very nearly instantaneous.
 
@@ -522,7 +522,7 @@ If we zoom out a bit and remember the DOM tree, we will recall that our `ul` is 
 
 Events that are bound to any of these elements will trigger when we click on the `a`.
 
-![DOM Tree](http://circuits-assets.generalassemb.ly/prod/asset/5152/Screen_Shot_2016-08-08_at_10.02.00_AM.png)
+![DOM Tree](assets/DOM-Tree.png)
 
 The order in which these events fire is called **event flow**.
 
@@ -541,7 +541,7 @@ Understanding event flow comes into play when the code has event handlers that a
 
 Take a look at our example from before. We've gone ahead and tied an event handler to the `a`, `li`, `ul`, `body`, and `document` elements that append a paragraph element to the body that states "[element name] has been clicked."
 
-![Popular Memes](http://circuits-assets.generalassemb.ly/prod/asset/4638/Slide-45.gif)
+![Popular Memes](assets/Slide-45.gif)
 
 The order in which those messages are appended to the body: "Anchor has been clicked" is appended first, and "Document has been clicked" is appended last, since the events are flowing outwards from the most specific element.
 
