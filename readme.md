@@ -250,7 +250,7 @@ When we click on the circle and trigger the turnRed function, this will refer to
 
 Here's what that looks like in action:
 
-![One Circle](http://circuits-assets.generalassemb.ly/prod/asset/4629/Slide-8.gif)
+![One Clicked Circle](http://circuits-assets.generalassemb.ly/prod/asset/4629/Slide-8.gif)
 
 Okay, but why use the keyword `this`:
 
