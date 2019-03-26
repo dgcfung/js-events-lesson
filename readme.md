@@ -11,11 +11,11 @@
 
 ## Framing
 
-So far, we have needed to use the REPL in the browser console to interact with our programs. This is asking a bit much of our users. Instead we would like to write code to respond to user interactions with the webpage.
+Wouldn't it be nice if we could write code that allows elements on the webpage to respond to user interactions?
 
 The **DOM** not only lets us manipulate the document (or webpage) using JavaScript, but also gives us the ability to write JavaScript that responds to interactions with the page. These interactions are communicated as **events**.
 
-We can **listen** for certain kinds of user-driven events, such as clicking a button, entering data into a form, keypresses and many, many more.
+We can **listen** for certain kinds of user-driven events, such as clicking a button, entering data into a form, pressing a particular key on your keyboard, and more.
 
 ## Events
 
@@ -139,15 +139,15 @@ button.addEventListener('click', function() {
 
 It's time to get some practice in creating event handlers.
 
-1. Open the [starter_code > color_scheme_switcher]() folder in your text editor.
+1. Open the [starter_code > color_scheme_switcher](https://git.generalassemb.ly/sei-nyc-jeopardy/js-events-lesson/tree/master/starter_code/color_scheme_switcher) folder in your text editor.
 
-2. Turn and Talk: Take a look at the code that has been provided to you in your main.js and style.css. What do you think will happen when the functions turnRed, turnWhite, turnBlue, and turnYellow run?
+2. Turn and Talk: Take a look at the code that has been provided to you in your `main.js` and `style.css`. What do you think will happen when the functions turnRed, turnWhite, turnBlue, and turnYellow run?
 
-3. Add event handlers to the main.js file so that when a user clicks on one of the colored dots, the background color of the entire page changes to match that dot. You should not need to change any HTML or CSS.
+3. Add event handlers to the `main.js` file so that when a user clicks on one of the colored dots, the background color of the entire page changes to match that dot. You should not need to change any HTML or CSS.
 
 ### Code Along Exercise -- Simple Form
 
-Say we've created a simple form that allows users to subscribe to our email newsletter.
+Say we've created a [simple form](https://git.generalassemb.ly/sei-nyc-jeopardy/js-events-lesson/tree/master/examples/email_form) that allows users to subscribe to our email newsletter.
 
 When the user tabs or clicks away from the email input field, we want to make sure the user has entered a value in the field.
 
@@ -176,7 +176,7 @@ Now let's take a look at the event handler in our JS:
 
 ```js
 // First in our JS, let's find the email input field.
-var emailInputField = document.getElementById('email');
+const emailInputField = document.getElementById('email');
 
 // Next up in our JS, let's add our event handler that will trigger the function when the user
 // hits tab or clicks out of the email field (the 'blur' event).
@@ -215,7 +215,7 @@ We've also added a message in the paragraph with the id `message`, alerting the 
 
 It's time to get some practice in creating event listeners.
 
-1. Open the [starter_code/event_listener_practice]() folder in your text editor. We've provided you with three files: index.html, style.css, and main.js.
+1. Open the [starter_code/event_listener_practice](starter_code/event_listener_practice) folder in your text editor. We've provided you with three files: index.html, style.css, and main.js.
 
 2. Your job is to add event handlers to create the following functionality:
 
@@ -239,7 +239,7 @@ Let's look at an example where we'll change the background color of a circle fro
 <div class="circle"></div>
 ```
 ##### JAVASCRIPT
-```JS
+```javascript
 document.querySelector('.circle').addEventListener('click', turnRed)
 
 function turnRed () {
@@ -266,10 +266,10 @@ Let's take a look:
 
 ```js
 //Select all elements with the class .circle on the page
-var circles = document.querySelectorAll('.circle');
+const circles = document.querySelectorAll('.circle');
 
 //loop through each .circle element and add an event handler.
-for (var i = 0; i < circles.length; i++) {
+for (let i = 0; i < circles.length; i++) {
 	circles[i].addEventListener('click', turnRed);
 }
 
