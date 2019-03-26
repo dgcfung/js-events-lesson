@@ -1,4 +1,4 @@
-# Events and Callbacks
+# JavaScript Events
 
 ## Learning Objectives
 
@@ -8,13 +8,6 @@
 * Understand the different types of events we can work with in JS
 * Setup an event listener and an event handler
 * Use the event object
-
-### Callbacks
-
-* Explain the concept of a "callback" and how we can pass functions as arguments to other functions
-* Explain why callbacks are important to asynchronous program flow
-* Pass a named function as a callback to **another** function
-* Pass an anonymous function as a callback to another function
 
 ## Framing
 
@@ -360,18 +353,78 @@ To prevent the default behavior, we have a special method inside the event objec
 	<summary> Answer </summary>
 
 ```js
-var button = document.querySelector('.js-button');
+const button = document.querySelector('.js-button');
 
 button.addEventListener('click', handleClickEvent);
 
 function handleClickEvent(e) {
 	e.preventDefault();
-  console.log('I was clicked!');
-  console.log(e);
+   console.log('I was clicked!');
+   console.log(e);
+}
+```
+</details>
+
+Another example:
+
+Maybe when a user clicks on a link or submits a form, we don't want to take them to another page.
+
+Instead, we want to fade in some comments.
+
+To do that, we could type:
+
+**HTML:**
+
+```html
+<a href="#">View Comments</a>
+```
+
+**JS:**
+
+```js
+document.querySelector('a').addEventListener('click', viewComments);
+
+
+function viewComments (e) {
+	// Add a class that fades the comments in by changing the opacity to 1
+	document.querySelector('#comments').className = 'show-comments';
 }
 ```
 
-</details>
+Our comments are added at the bottom as we had intended, but we don't want the page to jump to the top!
+
+![](assets/no_prevent_default.gif)
+
+We want to override the default functionality of a link, and have comments appear instead of taking the user to another page.
+
+
+To prevent this default behavior, we can use the `preventDefault()` method:
+
+```js
+document.querySelector('a').addEventListener('click', viewComments);
+
+function viewComments (e) {
+	// Prevent page from jumping to top.
+	e.preventDefault();
+
+	document.querySelector('#comments').className = 'show-comments';
+}
+```
+
+Again, we're passing the event object as a parameter to our callback function.
+
+
+Notice how, within the function, we called the preventDefault method on the event object using dot notation:
+
+`e.preventDefault();`
+
+Let's take a look at the result:
+
+![](assets/prevent_default.gif)
+
+
+
+You'll often use this method when you have _anchors_ or _submit buttons_ on a page that you want to provide with some JavaScript functionality, instead of having them take you to another page.
 
 ### Event Propagation
 
@@ -383,9 +436,27 @@ One way to go about this is to set an individual event listener on each link, as
 
 Another way to go about this is to take advantage of event propagation. There are three phases of **event propagation**: capture phase, target phase, and bubbling phase.
 
+Let's take a look:
+
+
+```js
+function addAnchorMessage (e) {
+  e.stopPropagation();
+  document.querySelector('body').appendChild = 'Anchor has been clicked';
+}
+```
+
+Again, we pass in the event object as a parameter, "e".
+
+We then access the `stopPropagation()` method using dot notation. This prevents the event from bubbling up to any ancestors.
+
+When we click on an anchor, we don't see messages appended for each ancestor element, since those events are no longer being triggered:
+
+![](http://circuits-assets.generalassemb.ly/prod/asset/4639/Slide-50.gif)
+
 When an event (e.g. click) occurs, all nodes up the DOM tree are notified, beginning at the window level and working its way down the DOM branch to the event target. This is the capture phase. Once the propagation reaches the event target, all event listeners on the target will be triggered. Then, event propagation continues back up the DOM tree in the event bubbling phase. All three of these phases are very nearly instantaneous.
 
-For a visual, consider the event propagation flow phase illustration below.
+Consider the event propagation flow phase illustration below:
 
 ![Event Propagation Flow Chart (from World Wide Web Consortium)](./event-propagation-flow.png)
 
@@ -423,13 +494,170 @@ Aha! That's the target of the event, or the element we clicked on that caused th
 
 ### Event Flow (If time permits)
 
+Now that we have a good feel for what the event object is, let's go ahead and look at a concept that is central to event handling in JavaScript: event flow.
+
+We've seen in the past that HTML elements can be nested inside other HTML elements. When we say "nested," we mean that one element can wrap another element.
+
+Take a look at a quick refresher:
+
+```html
+<h1>Popular memes for 2016</h1>
+
+<ul>
+	<li><a href="">Hotline Bling</a></li>
+	<li><a href="">Katy Perry's Left Shark</a></li>
+	<li><a href="">Lil Mama Crying</a></li>
+	<li><a href="">Pizza Rat</a></li>
+	<li><a href="">What's Good?</a></li>
+</ul>
+```
+
+Here we have a `ul` wrapping five `li`. Each `li`, in turn, is wrapping an anchor.
+
+In other words, we could say that each `a` is nested inside of an `li`, and each `li` is nested inside the `ul`.
+
+When we hover over an anchor and click on it, JS can trigger any events that are tied to the anchor, as well as any events that are tied to any elements the `a` is nested within (i.e., the `li` it sits within; the `ul` it is also nested within).
+
+If we zoom out a bit and remember the DOM tree, we will recall that our `ul` is nested inside the `body`, which is nested inside the `html`, which is nested inside the document object.
+
+Events that are bound to any of these elements will trigger when we click on the `a`.
+
+![](http://circuits-assets.generalassemb.ly/prod/asset/5152/Screen_Shot_2016-08-08_at_10.02.00_AM.png)
+
+The order in which these events fire is called **event flow**.
+
 ### Event Bubbling
+
+**Event bubbling** is when the event starts at the most specific element node and then flows outwards toward the least specific node.
+
+
+<img src="assets/Slide-42-Event-Bubbling.svg" width="300px">
+
+Here the event will start at the `a`, the most specific node, and then work its way outward, triggering any events that might be tied to the `li`, then the `ul`, then the `body`, then finally, the `document` (in this case, the HTML doc).
+
+#### Why does this matter?
+
+Understanding event flow comes into play when the code has event handlers that are tied to the element that triggers the event, as well as any of its ancestors or descendants.
+
+Take a look at our example from before. We've gone ahead and tied an event handler to the `a`, `li`, `ul`, `body`, and `document` elements that append a paragraph element to the body that states "[element name] has been clicked."
+
+![](http://circuits-assets.generalassemb.ly/prod/asset/4638/Slide-45.gif)
+
+The order in which those messages are appended to the body: "Anchor has been clicked" is appended first, and "Document has been clicked" is appended last, since the events are flowing outwards from the most specific element.
+
+The key concept here is that _events are triggered not only for the element that we tie the event handler to, but also for any elements that element is nested inside of_.
+
+The flow in which these events happens is from the _most specific_ element to the _least specific_ element (outwards in the diagram).
 
 ### Key Events (If time permits)
 
+Let's explore some other events.
+
+Open [starter\_code/key\_events](starter_code/key_events) in your text editor.
+
+#### Independent practice
+
+With a partner, take a look at the code that has been provided in `main.js`. Explore the `event` object again. **Can you find a way to tell which key was pressed?**
+
+#### Guided Practice - Key Events
+
+> The `keyCode` property is a cross-browser way of telling which key is pressed. For `d`, `evt.keyCode` is `68`. For Shift, it's `16`.
+
+#### Independent Practice
+
+Find the keyCodes for...
+* Enter
+* Tab
+* Delete
+
+#### Independent Practice
+
+There are several other events that come up with the `input` tag. See if you can figure out the difference between the following events:
+
+* `keyup`
+* `keydown`
+* `keypress`
+* `change`
+* `focus`
+* `blur`
+
+> If you want to test out more JavaScript events, an extensive list can be found [here](https://developer.mozilla.org/en-US/docs/Web/Events).
+
 ### Multiple Events (If time permits)
 
----
+There may be instances where we want to trigger multiple functions when an event occurs.
+
+For example, when our user clicks the "submit" button, maybe we want to run a function that will check to see if the form is valid and call another function that will display a "loading" icon.
+
+In a case like this, we'd have multiple event handlers for one event.
+
+To trigger multiple functions, first define the functions that you want to be called when our event occurs.
+
+For example, on the next slide, we define two functions: `showLoadingIcon()` and `checkEmailInput()`.
+
+```js
+function showLoadingIcon() {
+  document.getElementById('loading').style.display = "block";
+}
+function checkEmailInput() {
+  var emailInputField = document.querySelector('input');
+    // Check to see whether the user has entered a value to the email field.
+    if (emailInputField.value.length === 0) {
+      // If the email field is blank, display a message to the user.
+      document.getElementById('message').innerText = 'Please enter an email address.'
+      // Add an error class to the input field that will give it a red border.
+      emailInputField.className = 'error';
+    } else {
+      // Otherwise, clear out the error message.
+      document.getElementById('message').innerText = '';
+      // Remove the error class from the input field
+      emailInputField.className = '';
+    }
+}
+```
+
+Alternatively, you could write something like this, which should still get the point across:
+
+
+```js
+function showLoadingIcon() {
+  // Code to show the loading icon
+}
+
+function checkEmailInput() {
+  // Code that checks to see if the user entered an email address
+  // And adds a red border to the input and an error message if not.
+}
+```
+
+We'll then need to **define a third function**, which will contain the previous two functions:
+
+```js
+function submitForm() {
+  showLoadingIcon();
+  checkEmailInput();
+}
+```
+
+Finally, we'll assign that third function as the event handler:
+
+
+```js
+document.getElementById('submit').addEventListener('click', submitForm);
+```
+
+Lets recap the steps before we move on:
+
+1.  Start with input and button elements (in our HTML).
+
+3.  Attach an event listener to the button.
+
+5.  Invoke two functions within the event handler.
+
+*   The first function displayed the loading icon.
+*   The second function validated the email address.
+
+***
 
 ### We do: Color Switcher
 
@@ -442,10 +670,10 @@ Let's write use javascript event listeners to finish the color switcher code and
 2. Visit this [repository](https://git.generalassemb.ly/WDI-Epiphany/event-listener-demo) and follow the instructions.
 
 ## Additional Reading
-- [Build a Drum Kit in Vanilla JS](https://www.youtube.com/watch?v=VuN8qwZoego)
-- [Event reference](https://developer.mozilla.org/en-US/docs/Web/Events)
-- [Introduction to events](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)
-- [Eloquent JavaScript: Handling Events](http://eloquentjavascript.net/14_event.html)
-- [Philip Roberts: What the heck is the event loop anyway?](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+- Videos
+ - [Philip Roberts: What the heck is the event loop anyway?](https://www.youtube.com/watch?v=8aGhZQkoFbQ)
+ - [Build a Drum Kit in Vanilla JS](https://www.youtube.com/watch?v=VuN8qwZoego)
 - Readings
- - Eloquent JavaScript [Events](http://eloquentjavascript.net/15_event.html)
+ - Eloquent JavaScript [Handling Events](http://eloquentjavascript.net/15_event.html)
+ - [Event reference](https://developer.mozilla.org/en-US/docs/Web/Events)
+ - [Introduction to events](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)
