@@ -226,7 +226,8 @@ It's time to get some practice in creating event listeners.
 
 ## This
 
-As we saw earlier in this unit, the keyword `this` refers to the object that "owns" the function that the executed code runs within. It's important to remember that, when we have a method that is inside an object, this refers to the object that contains that method.
+As we saw earlier in this unit, the keyword `this` refers to the object that "owns" the function that the executed code runs within. It's important to remember that, when we have a method that is inside an object, 
+fers to the object that contains that method.
 
 However, when a callback function is executed within the context of an event handler, it is the element (the DOM node) that owns the context.
 
@@ -664,7 +665,7 @@ Lets recap the steps before we move on:
 
 1. In the traffic light directory, implement the JavaScript required to get the traffic light to illuminate the correct light when the corresponding button is pressed. **Note**: Only one light should be on at a time!
 
-2. Visit this [repository](https://git.generalassemb.ly/sei-nyc-jeopardy/event-listener-demo) and follow the instructions.
+2. Visit this [repository](https://git.generalassemb.ly/sei-nyc-thunderbolt/event-listener-demo) and follow the instructions.
 
 ## Additional Reading
 - Videos
