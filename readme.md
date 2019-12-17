@@ -223,93 +223,6 @@ It's time to get some practice in creating event listeners.
  - When user's mouse cursor is no longer hovering over the `<div>`, the background of the page should turn white.
 3. You have been provided with two functions — `changeBackgroundColorToBlue` and `changeBackgroundColorToWhite` — that can be used as callbacks. You do not need to change the content of these functions.
 
-
-## This
-
-As we saw earlier in this unit, the keyword `this` refers to the object that "owns" the function that the executed code runs within. It's important to remember that, when we have a method that is inside an object, 
-fers to the object that contains that method.
-
-However, when a callback function is executed within the context of an event handler, it is the element (the DOM node) that owns the context.
-
-So in this case, this will refer to the element that we selected when we set up our event handler.
-
-Let's look at an example where we'll change the background color of a circle from blue to red, just by clicking on it:
-
-##### HTML
-```html
-<div class="circle"></div>
-```
-##### JAVASCRIPT
-```javascript
-document.querySelector('.circle').addEventListener('click', turnRed)
-
-function turnRed () {
-	this.style.backgroundColor = "red";
-}
-```
-When we click on the circle and trigger the turnRed function, this will refer to the element with the class circle within the turnRed function.
-
-Here's what that looks like in action:
-
-![One Circle](assets/Slide-8.gif)
-
-Okay, but why use the keyword `this`:
-
-`this.style.backgroundColor = "red";`
-
-Instead of just writing:
-
-`document.querySelector('.circle').style.backgroundColor = "red";`
-
-Well, let's imagine that there are several circles on our page, and we only want the `.circle` that we just clicked to have the updated red background color. That is where the `this` keyword really becomes useful.
-
-Let's take a look:
-
-```js
-//Select all elements with the class .circle on the page
-const circles = document.querySelectorAll('.circle');
-
-//loop through each .circle element and add an event handler.
-for (let i = 0; i < circles.length; i++) {
-	circles[i].addEventListener('click', turnRed);
-}
-
-function turnRed () {
-	this.style.backgroundColor = "red";
-}
-```
-
-Here we are adding an event handler to each element with the class `.circle`.
-
-When an element with the `.circle` class is clicked, the `turnRed` function will be called; within that `turnRed` function, `this` will only refer to the `.circle` that triggered the `turnRed` function, and not to any of the other circles.
-
-Let's see this in action:
-
-![Three Circles](assets/Slide-11.gif)
-
-See how we are only adding the style attribute to the circle we are currently clicking on (i.e., the one that triggered the callback function)? Pretty cool, huh?
-
-## Independent Practice: This  
-It's time to get some practice in creating using the `this` keyword.
-
-Work through this exercise with a partner.
-
-- Open the [starter_code/color\_scheme\_switcher\_part\_2](starter_code/color_scheme_switcher_part_2) folder in your text editor. We've provided you with three files: `index.html`, `style.css`, and `main.js`.
-- Follow the instructions in the `main.js` file.
-- You should only need to write code within the `switchTheme` function.
-
-**Challenge Instructions (for advanced students)**
-
-Want to try your hand at this exercise with a little less guidance?
-
-- Open the [starter\_code > color\_scheme\_switcher](starter_code/color_scheme_switcher) folder in your text editor that you were working from earlier.
-- Refactor the code using the following guidlines:
-	- Use `querySelectorAll` to select all `li`s on the page.
-	- Loop through all list items and add an event listener to each. When a `li` is clicked, call the `switchTheme` function.
-	- Create the `switchTheme` function. When the function runs, use the `this` keyword to get the className on the button that was just clicked and update the className on the body to that class.
-
----
-
 ## The Event Object
 
 Now that we've gotten the hang of writing event handlers, let's talk a bit about the event object.
@@ -427,6 +340,12 @@ Let's take a look at the result:
 
 You'll often use this method when you have _anchors_ or _submit buttons_ on a page that you want to provide with some JavaScript functionality, instead of having them take you to another page.
 
+## You Do: Traffic Light and DOTS: The Game
+
+1. In the traffic light directory, implement the JavaScript required to get the traffic light to illuminate the correct light when the corresponding button is pressed. **Note**: Only one light should be on at a time!
+
+2. Visit this [repository](https://git.generalassemb.ly/sei-nyc-oasis/event-listener-demo) and follow the instructions.
+
 ### Key Events (If time permits)
 
 Let's explore some other events.
@@ -537,12 +456,6 @@ Lets recap the steps before we move on:
 *   The second function validated the email address.
 
 ***
-
-## You Do: Traffic Light and DOTS: The Game
-
-1. In the traffic light directory, implement the JavaScript required to get the traffic light to illuminate the correct light when the corresponding button is pressed. **Note**: Only one light should be on at a time!
-
-2. Visit this [repository](https://git.generalassemb.ly/sei-nyc-oasis/event-listener-demo) and follow the instructions.
 
 ## Additional Reading
 - Videos
